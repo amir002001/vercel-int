@@ -15,9 +15,10 @@ const autoComplete = async (word: string): Promise<string[]> => {
   const words = await prisma.word.findMany({
     where: {
       text: {
-        startsWith: word,
+        contains: word,
       },
     },
+    take: 20,
   });
-  return words.map((word) => word.text).slice(0, 20);
+  return words.map((word) => word.text);
 };
