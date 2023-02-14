@@ -10,8 +10,11 @@ export default async function handler(
   const words = buffer.toString().split("\n");
   words.pop();
 
-  for (const word of words) {
-    await prisma.word.create({ data: { text: word } });
-  }
+  await prisma.word.createMany({
+    data: words.map((word) => {
+      return { text: word };
+    }),
+  });
+
   res.status(200).json({ res: "ok" });
 }
